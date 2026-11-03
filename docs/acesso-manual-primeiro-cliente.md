@@ -10,7 +10,7 @@ Este processo **não comprova posse da caixa de e-mail**. O operador deve confir
 
 - O banco Convex guarda temporariamente o token em `manualAuthCodes`; esta tabela é visível apenas ao operador com acesso administrativo ao Dashboard e não faz parte da exportação de dados da barbearia. Não capturar screenshots, logs ou backups dessa tabela.
 - `enqueueManualCode` e `pendingManualCodes` são **internal**, sem endpoint público; exige autenticação com privilégios do Convex Dashboard para consulta manual.
-- Validade: **15 minutos**. Novas solicitações de mesmo e-mail + tipo substituem os códigos anteriores na fila; a verificação e o limite de tentativas continuam no Convex Auth.
+- Validade: **15 minutos**. Novas solicitações de mesmo e-mail + tipo substituem a entrada exibida na fila; o token anterior pode continuar válido no Convex Auth até expirar. A expiração e os limites de tentativas são controlados pelo Convex Auth.
 - Os códigos são segredos temporários em texto claro na fila, necessários à entrega humana. Excluir dados vencidos e restringir operadores do projeto; se houver incidente, interromper a liberação e rotacionar credenciais.
 - A geração do código de recuperação não altera a senha até o cliente concluir a validação.
 - O modo manual não cria automaticamente contas, barbearias, convites nem assinaturas; `BARBER_AUTH_COMMERCIAL_ENABLED` segue exigindo convite operacional para criar organização.
