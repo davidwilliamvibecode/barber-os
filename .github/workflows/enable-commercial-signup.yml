@@ -1,0 +1,54 @@
+name: Liberar cadastro comercial com convite — primeiro cliente
+
+on:
+  push:
+    branches: [production]
+    paths:
+      - ".github/workflows/enable-commercial-signup.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: convex-first-client-production
+  cancel-in-progress: false
+
+jobs:
+  activate:
+    name: Ativar somente cadastro por senha mantendo convite obrigatório
+    if: github.repository == 'davidwilliamvibecode/barber-os' && github.ref == 'refs/heads/production'
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    environment: convex-primeiro-cliente
+    steps:
+      - name: Checkout production
+        uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+
+      - name: Node.js 24
+        uses: actions/setup-node@v4
+        with:
+          node-version: "24"
+
+      - name: Bun
+        uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: 1.4.4
+
+      - name: Instalar dependências
+        run: bun install --frozen-lockfile
+
+      - name: Validar convites, isolamento e autenticação em banco descartável
+        run: bunx vitest run tests/commercial-release-gates.vitest.ts tests/first-client-operational.vitest.ts tests/manual-code-delivery.vitest.ts tests/manual-code-http.vitest.ts
+
+      - name: Habilitar variável somente no Convex Production autorizado
+        env:
+          CONVEX_DEPLOY_KEY: ${{ secrets.CONVEX_FIRST_CLIENT_DEPLOY_KEY }}
+        run: node scripts/enable-commercial-signup.mjs
+
+      - name: Verificar configuração final e chaves sem expor segredos
+        env:
+          CONVEX_DEPLOY_KEY: ${{ secrets.CONVEX_FIRST_CLIENT_DEPLOY_KEY }}
+        run: node scripts/verify-production-env.mjs
