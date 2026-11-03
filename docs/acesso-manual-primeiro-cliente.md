@@ -19,7 +19,7 @@ Este processo **não comprova posse da caixa de e-mail**. O operador deve confir
 
 1. Em **Convex Production** `clever-squid-863` → Environment Variables, definir `BARBER_EMAIL_PROVIDER=manual`. Não usar Brevo nem Resend. Manter `BARBER_AUTH_COMMERCIAL_ENABLED=false` até concluir QA.
 2. Publicar backend com a branch validada `production` (nunca `unique-tortoise-387`). Confirmar que a tabela `manualAuthCodes` existe.
-3. Em **Cloudflare Pages comercial** (`barber-os-cliente.pages.dev`), definir variável de build `VITE_MANUAL_CODE_DELIVERY_ENABLED=true`, mantendo o frontend apontado para `https://clever-squid-863.convex.cloud`. Publicar novo build após o merge.
+3. Em **Cloudflare Pages comercial** (`barber-os-cliente.pages.dev`), manter o frontend apontado para `https://clever-squid-863.convex.cloud`. A interface reconhece o modo de produção existente; não é necessário adicionar uma variável de build. Publicar novo build após o merge.
 4. Em QA isolado, testar código de 8 dígitos para cadastro e recuperação; sem envio de e-mail, WhatsApp ou mensagem automática.
 5. Apenas com identidade conferida, convite interno operacional e LGPD/backup testados, habilitar `BARBER_AUTH_COMMERCIAL_ENABLED=true` e emitir **um** convite para o primeiro cliente. Não executar teste com dados pessoais reais antes dos gates P0.
 
