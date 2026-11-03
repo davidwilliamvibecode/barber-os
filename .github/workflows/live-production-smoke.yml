@@ -39,3 +39,8 @@ jobs:
             "${BASE}${JS_PATH}" -o /tmp/barber-entry.js
           test -s /tmp/barber-entry.js
           echo "OK: site, rota /auth e bundle JS publicados sob HTTPS."
+          STATUS=$(curl --silent --show-error --max-time 30 \
+            -o /dev/null -w '%{http_code}' -X POST \
+            'https://clever-squid-863.convex.site/internal/manual-auth-code')
+          test "$STATUS" = "401"
+          echo "OK: endpoint interno não permite acesso anônimo."
