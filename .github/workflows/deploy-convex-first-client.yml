@@ -26,7 +26,7 @@ concurrency:
 jobs:
   deploy:
     name: Publicação controlada no Convex Production (clever-squid-863)
-    if: github.repository == '1993dwsf-dev/barber-os' && github.ref == 'refs/heads/production'
+    if: github.repository == 'davidwilliamvibecode/barber-os' && github.ref == 'refs/heads/production'
     runs-on: ubuntu-latest
     timeout-minutes: 15
     environment: convex-primeiro-cliente
