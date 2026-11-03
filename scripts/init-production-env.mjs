@@ -46,6 +46,15 @@ for (const [name, value] of settings) {
     console.log('Criado: ' + name);
   }
 }
+// Este script roda DEPOIS do deploy: evita abrir o provedor novo
+// antes da publicação das funções de entrega privada.
+if (old.has('BARBER_EMAIL_PROVIDER')) {
+  const current = convex(['env', 'get', '--prod', 'BARBER_EMAIL_PROVIDER']).trim();
+  if (current !== 'manual') {
+    convex(['env', 'set', '--prod', 'BARBER_EMAIL_PROVIDER'], 'manual' + '\\n');
+    console.log('Atualizado: entrega de códigos manual, sem provedor transacional');
+  }
+}
 const hasPrivate = old.has('JWT_PRIVATE_KEY');
 const hasJwks = old.has('JWKS');
 if (hasPrivate !== hasJwks) {
