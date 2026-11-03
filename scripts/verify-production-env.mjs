@@ -27,7 +27,11 @@ equal("SITE_URL", "https://barber-os-cliente.pages.dev");
 equal("BARBER_AUTH_V2_ENABLED", "true");
 equal("BARBER_GOOGLE_AUTH_ENABLED", "false");
 equal("BARBER_MVP_GOOGLE_ONLY", "false");
-equal("BARBER_AUTH_COMMERCIAL_ENABLED", "false");
+const commercialState = read("BARBER_AUTH_COMMERCIAL_ENABLED");
+if (commercialState !== "true" && commercialState !== "false") {
+  throw new Error("Estado do cadastro comercial ausente ou inesperado.");
+}
+console.log("PASS BARBER_AUTH_COMMERCIAL_ENABLED=" + commercialState);
 equal("BARBER_BILLING_ENFORCED", "false");
 
 const rawPrivate = read("JWT_PRIVATE_KEY");
@@ -62,6 +66,11 @@ console.log(manual
   : emailConfigured
     ? "PENDING: e-mail provider configured, delivery is NOT verified"
     : "BLOCKED: transactional e-mail provider not configured");
-console.log("BLOCKED: commercial onboarding is deliberately disabled");
+if (commercialState === "true" && !manual) {
+  throw new Error("Cadastro comercial aberto sem canal privado de códigos configurado.");
+}
+console.log(commercialState === "true"
+  ? "PASS: cadastro por e-mail/senha habilitado; criação de barbearia exige convite individual."
+  : "BLOCKED: commercial onboarding is deliberately disabled");
 console.log(manual ? "PENDING: manual code delivery/verification/recovery, backup restore, LGPD and live tenant-isolation tests" : "PENDING: real e-mail delivery, recovery, backup restore, LGPD acceptance, tenant-isolation tests");
 console.log("PASS: production authentication configuration verified without leaking credentials.");
