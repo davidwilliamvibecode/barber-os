@@ -2,11 +2,6 @@ name: Configuração inicial Convex Production — primeiro cliente
 
 on:
   workflow_dispatch:
-  push:
-    branches: [production]
-    paths:
-      - ".github/workflows/configure-convex-first-client.yml"
-      - "scripts/init-production-env.mjs"
 
 permissions:
   contents: read
