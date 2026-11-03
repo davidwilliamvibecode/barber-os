@@ -40,8 +40,14 @@ jobs:
       - name: Configurar backend Convex local e gerar tipos
         run: bunx convex dev --once
 
-      - name: Auditoria de dependências
-        run: bun audit
+      - name: Auditoria de dependências de produção (qualquer gravidade)
+        run: bun audit --prod
+
+      # GHSA-g3hv-75wg-m249 afeta minimatch exclusivamente no toolchain
+      # ESLint/TypeScript-ESLint (dev), sem release compatível para 3.x/10.x.
+      # Não ignorar avisos de gravidade alta no grafo completo.
+      - name: Auditoria total — bloquear vulnerabilidades altas e críticas
+        run: bun audit --audit-level=high
 
       - name: ESLint
         run: bun run lint

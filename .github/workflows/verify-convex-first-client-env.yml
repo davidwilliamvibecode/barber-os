@@ -2,11 +2,6 @@ name: Auditoria segura de autenticação — Convex Production
 
 on:
   workflow_dispatch:
-  push:
-    branches: [production]
-    paths:
-      - ".github/workflows/verify-convex-first-client-env.yml"
-      - "scripts/verify-production-env.mjs"
 
 permissions:
   contents: read
@@ -14,7 +9,7 @@ permissions:
 jobs:
   verify:
     name: Verificar variáveis e integridade JWT sem expor segredos
-    if: github.repository == '1993dwsf-dev/barber-os' && github.ref == 'refs/heads/production'
+    if: github.repository == 'davidwilliamvibecode/barber-os' && github.ref == 'refs/heads/production'
     runs-on: ubuntu-latest
     timeout-minutes: 10
     environment: convex-primeiro-cliente

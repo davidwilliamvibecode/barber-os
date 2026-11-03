@@ -26,7 +26,7 @@ concurrency:
 jobs:
   deploy:
     name: Publicação controlada no Convex Production (clever-squid-863)
-    if: github.repository == '1993dwsf-dev/barber-os' && github.ref == 'refs/heads/production'
+    if: github.repository == 'davidwilliamvibecode/barber-os' && github.ref == 'refs/heads/production'
     runs-on: ubuntu-latest
     timeout-minutes: 15
     environment: convex-primeiro-cliente
@@ -64,6 +64,16 @@ jobs:
         env:
           CONVEX_DEPLOY_KEY: ${{ secrets.CONVEX_FIRST_CLIENT_DEPLOY_KEY }}
         run: bunx convex deploy --message "Primeiro cliente production ${GITHUB_SHA}"
+
+      - name: Provisionar caixa privada de códigos somente após o deploy
+        env:
+          CONVEX_DEPLOY_KEY: ${{ secrets.CONVEX_FIRST_CLIENT_DEPLOY_KEY }}
+        run: node scripts/init-production-env.mjs
+
+      - name: Auditar autenticação sem expor códigos nem segredos
+        env:
+          CONVEX_DEPLOY_KEY: ${{ secrets.CONVEX_FIRST_CLIENT_DEPLOY_KEY }}
+        run: node scripts/verify-production-env.mjs
 
       - name: Registrar conclusão sem expor credenciais
         run: echo "Funções enviadas ao Convex Production clever-squid-863; falta validar login e dados reais antes da entrega."

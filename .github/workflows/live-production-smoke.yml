@@ -5,6 +5,11 @@ on:
     branches: [production]
     paths:
       - ".github/workflows/live-production-smoke.yml"
+      - "src/pages/Auth.tsx"
+      - "src/pages/AuthV2.tsx"
+      - "src/convex/**"
+      - "src/lib/**"
+      - "bun.lock"
   workflow_dispatch:
 
 permissions:
