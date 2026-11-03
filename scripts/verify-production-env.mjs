@@ -63,5 +63,5 @@ console.log(manual
     ? "PENDING: e-mail provider configured, delivery is NOT verified"
     : "BLOCKED: transactional e-mail provider not configured");
 console.log("BLOCKED: commercial onboarding is deliberately disabled");
-console.log("PENDING: real e-mail delivery, recovery, backup restore, LGPD acceptance, tenant-isolation tests");
+console.log(manual ? "PENDING: manual code delivery/verification/recovery, backup restore, LGPD and live tenant-isolation tests" : "PENDING: real e-mail delivery, recovery, backup restore, LGPD acceptance, tenant-isolation tests");
 console.log("PASS: production authentication configuration verified without leaking credentials.");
