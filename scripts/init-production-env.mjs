@@ -51,7 +51,7 @@ for (const [name, value] of settings) {
 if (old.has('BARBER_EMAIL_PROVIDER')) {
   const current = convex(['env', 'get', '--prod', 'BARBER_EMAIL_PROVIDER']).trim();
   if (current !== 'manual') {
-    convex(['env', 'set', '--prod', 'BARBER_EMAIL_PROVIDER'], 'manual' + '\\n');
+    convex(['env', 'set', '--prod', 'BARBER_EMAIL_PROVIDER'], 'manual' + '\n');
     console.log('Atualizado: entrega de códigos manual, sem provedor transacional');
   }
 }
