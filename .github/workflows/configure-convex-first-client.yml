@@ -18,7 +18,7 @@ concurrency:
 jobs:
   configure:
     name: Configurar variáveis seguras sem ativar cadastro comercial
-    if: github.repository == '1993dwsf-dev/barber-os' && github.ref == 'refs/heads/production'
+    if: github.repository == 'davidwilliamvibecode/barber-os' && github.ref == 'refs/heads/production'
     runs-on: ubuntu-latest
     timeout-minutes: 15
     environment: convex-primeiro-cliente
