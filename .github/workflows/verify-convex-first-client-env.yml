@@ -2,11 +2,6 @@ name: Auditoria segura de autenticação — Convex Production
 
 on:
   workflow_dispatch:
-  push:
-    branches: [production]
-    paths:
-      - ".github/workflows/verify-convex-first-client-env.yml"
-      - "scripts/verify-production-env.mjs"
 
 permissions:
   contents: read
