@@ -18,3 +18,25 @@ test("endpoint de entrega manual recusa solicitação sem autorização", async 
   });
   expect(response.status).toBe(401);
 });
+
+
+test("endpoint interno aceita código somente com segredo válido", async () => {
+  vi.stubEnv("BARBER_EMAIL_PROVIDER", "manual");
+  vi.stubEnv("BARBER_AUTH_COMMERCIAL_ENABLED", "true");
+  vi.stubEnv("CONVEX_SITE_URL", "https://clever-squid-863.convex.site");
+  const secret = "fixture-for-tests-only-uses-no-real-secret-value";
+  vi.stubEnv("BARBER_MANUAL_INBOX_SECRET", secret);
+  const t = convexTest(schema, modules);
+  const response = await t.fetch("/internal/manual-auth-code", {
+    method: "POST",
+    headers: {
+      "content-type": "application/json",
+      "x-barber-inbox-secret": secret,
+    },
+    body: JSON.stringify({
+      email: "fake@example.test", token: "12345678", purpose: "verification",
+    }),
+  });
+  expect(response.status).toBe(200);
+  expect(await response.text()).toBe("OK");
+});
