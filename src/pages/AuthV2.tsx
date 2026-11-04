@@ -191,7 +191,7 @@ export default function AuthV2({ redirectAfterAuth = "/app" }: { redirectAfterAu
         <Link to="/" className="inline-flex items-center gap-1.5 text-xs text-muted-foreground hover:text-foreground">
           <ArrowLeft className="size-3.5" /> Voltar ao site
         </Link>
-        <div className="mt-6 inline-flex size-11 items-center justify-center rounded-xl bg-primary text-primary-foreground">
+        <div className="mx-auto mt-6 flex size-11 items-center justify-center rounded-xl bg-primary text-primary-foreground">
           <Scissors className="size-6" />
         </div>
         <h1 className="mt-4 text-2xl font-semibold text-foreground">{googleOnly ? "Entre no Barber OS" : titles[step]}</h1>
